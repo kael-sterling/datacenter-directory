@@ -1,3 +1,26 @@
+# datacenter-directory
+Declarative identity governance for Active Directory, Exchange-style attributes, shared mailbox departments, and strict group membership enforcement. This repository implements a clean, deterministic identity model using CSV-driven provisioning and a unified configuration system.
+
+The repo contains two major components:
+
+1. **IdentityProvisioning Module**  
+   Declarative user and group provisioning for AD DS.
+
+2. **Provisioning Engine for Shared Mailboxes**  
+   Declarative mailbox and group membership provisioning using strict desired-state enforcement.
+
+Both systems follow the same IaC philosophy: identity is code, provisioning is deterministic, and drift is eliminated.
+
+---
+
+# IdentityProvisioning Module
+
+The `IdentityProvisioning` module provisions and maintains AD DS user and group objects using declarative CSV files and a unified configuration file (`identity.json`). It enforces identity attributes, manages non-identity attributes with governed overwrite rules, generates proxyAddresses across multiple domains, and maintains group membership and nesting.
+
+See the module-level README in `IdentityProvisioning/README.md` for full details.
+
+---
+
 # Provisioning Engine
 
 This directory contains the top-level provisioning workflow for shared mailboxes and directory groups. It includes:
@@ -86,3 +109,23 @@ Members are semicolon-separated UPNs.
 A fictional example showing how group membership should be structured, including semicolon-separated UPNs and realistic (but non-identifying) group names.
 
 This file is provided only as a reference and is safe for public repositories.
+
+# **Philosophy**
+
+`datacenter-directory` treats identity as code.
+
+Every run enforces a deterministic identity model, eliminates drift, and ensures AD DS remains consistent with declarative configuration. The system is:
+
+* Predictable  
+* Repeatable  
+* Idempotent  
+* Auditable  
+* Easy to extend
+
+This repo is designed to be a homelab-grade identity system built with enterprise IAM principles.
+
+# **Author**
+
+Created by Kael Sterling Avner
+
+Untapped Technologies

@@ -59,6 +59,6 @@ $membershipArgs = @{
 }
 if ($DryRun) { $membershipArgs["DryRun"] = $true }
 
-Apply-GroupMembership @membershipArgs
+Apply-CloudGroupMembership @membershipArgs
 
 Write-Host "`n=== Loader execution complete ===`n" -ForegroundColor Cyan

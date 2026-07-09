@@ -1,0 +1,25 @@
+name: Pester Tests
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    test:
+        runs-on: windows-latest
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Install PowerShell modules
+              shell: pwsh
+              run: |
+                  Install-Module Pester -Force -Scope CurrentUser
+
+            - name: Run Pester tests
+              shell: pwsh
+              run: |
+                  ./Tests.ps1

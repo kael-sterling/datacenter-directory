@@ -2,7 +2,7 @@
 
 This directory contains:
 
-- `Apply-GroupMembership.ps1`
+- `Apply-CloudGroupMembership.ps1`
 
 ## CSV Inputs
 
@@ -36,7 +36,7 @@ pwsh ../Run-MailboxProvisioning.ps1
 Or directly:
 
 ```powershell
-pwsh ./Apply-GroupMembership.ps1 -GroupCsvPath ../../group_membership.csv
+pwsh ./Apply-CloudGroupMembership.ps1 -GroupCsvPath ../../group_membership.csv
 ```
 
 ## Notes

@@ -1,0 +1,17 @@
+{
+    "UsersOU": "OU=Users,DC=untapped,DC=tech",
+    "GroupsOU": "OU=Groups,DC=untapped,DC=tech",
+
+    "PrimaryLoginDomain": "untapped.tech",
+    "PrimaryMailDomain": "untapped.tech",
+
+    "SecondaryMailDomains": ["untappedtechnologies.com", "untapped.cloud"],
+
+    "DefaultUserPassword": "TempP@ssw0rd!",
+
+    "DefaultCompany": "Untapped Technologies",
+    "DefaultCountry": "US",
+
+    "SoftManagerEnforcement": true,
+    "OverwriteNonIdentityAttributes": false
+}
