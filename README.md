@@ -1,62 +1,141 @@
-# datacenter-directory
+# **📘 datacenter-directory**
 
-Infrastructure-as-code tooling for identity, directory, and mailbox provisioning automation across hybrid and cloud environments.
+Declarative identity governance for Active Directory, Exchange-style attributes, shared mailbox departments, cloud profile photo synchronization, and strict group membership enforcement. This repository implements a clean, deterministic identity model using CSV-driven provisioning and a unified configuration system.
 
-This repository defines desired state for shared mailboxes, directory metadata, security groups, and group membership using CSV files. Provisioning scripts apply and enforce that desired state using Microsoft Graph and Exchange Online.
+The repo contains three major components:
 
-## CSV Files
+1. **IdentityProvisioning Module** Declarative user and group provisioning for AD DS.
+2. **SharedMailboxProvisioning Module** Declarative mailbox provisioning.
+3. **Cloud Photo Synchronization** Automated ingestion of user profile photos from Microsoft 365 into AD DS.
 
-Two CSV types exist in this repository:
+All systems follow the same IaC philosophy: identity is code, provisioning is deterministic, and drift is eliminated.
 
-### **1. Base (empty) CSVs**
+# **🧩 IdentityProvisioning Module**
 
-These are the real, functional CSVs used by the provisioning engine:
+The `IdentityProvisioning` module provisions and maintains AD DS user and group objects using declarative CSV files and a unified configuration file (`identity.json`). It enforces identity attributes, manages non-identity attributes with governed overwrite rules, generates proxyAddresses across multiple domains, and maintains group membership and nesting.
 
-- `provisioning/shared_mailboxes.csv` — empty schema
-- `provisioning/group_membership.csv` — empty schema
+Key capabilities include:
 
-The provisioning script will **auto-generate** a complete membership CSV if it does not exist.
+- Declarative user provisioning from `users.csv`
+- Declarative group provisioning from `groups.csv`
+- Strict desired-state enforcement for:
+    - identity attributes
+    - non-identity attributes
+    - proxyAddresses
+    - manager relationships
+    - department/title/company metadata
+- Automatic generation of:
+    - canonical names
+    - mailNicknames
+    - proxyAddresses
+- Drift detection and correction
+- Group nesting enforcement
+- Predictable, idempotent execution model
 
-### **2. Example CSVs**
+See the module-level README in `IdentityProvisioning/README.md` for full details.
 
-These demonstrate the schema using **fictional** mailboxes and groups:
+# **📬 SharedMailboxProvisioning Engine**
 
-- `provisioning/shared_mailboxes_example.csv`
-- `provisioning/group_membership_example.csv`
+This directory contains the top-level provisioning workflow for shared mailboxes and mailbox-related directory groups. It includes:
 
-These are safe for public repos and help users understand how to structure their own data.
+- `Invoke-MailboxProvisioning.ps1` — orchestration wrapper
+- `shared_mailboxes.csv` — real desired-state definition
+- `shared_mailboxes_example.csv` — fictional example
 
-## Repository Structure
+The engine provisions:
 
-```
-datacenter-directory/
-│
-├── provisioning/
-│   ├── Run-MailboxProvisioning.ps1
-│   ├── shared_mailboxes.csv
-│   ├── shared_mailboxes_example.csv
-│   ├── group_membership.csv
-│   ├── group_membership_example.csv
-│   │
-│   ├── mailbox/
-│   │   └── Provision-SharedMailboxes.ps1
-│   │
-│   └── groups/
-│       └── Apply-GroupMembership.ps1
-│
-└── README.md
-```
+- shared mailboxes
+- mailbox metadata (aliases, folders, descriptions)
+- mailbox department classification
+- mailbox visibility (HideFromGAL)
+- mailbox permissions
+- strict group membership enforcement
 
-## Usage
+Members are semicolon-separated UPNs.
 
-Run the provisioning workflow:
+## **▶️ Invoke-MailboxProvisioning.ps1**
+
+This wrapper:
+
+1. Resolves CSV paths
+2. Imports all provisioning scripts from subdirectories
+3. Provisions mailboxes and mailbox permission groups
+4. Enforces strict group membership
+5. Supports DryRun mode
+
+It ensures all provisioning logic runs in a predictable, idempotent order.
+
+### **Example**
 
 ```powershell
-pwsh ./provisioning/Run-MailboxProvisioning.ps1
+pwsh ./Run-MailboxProvisioning.ps1 \-MailboxesCsvPath ./shared\_mailboxes.csv \-DryRun
 ```
 
-Preview changes:
+# **🖼️ Cloud Photo Synchronization**
+
+## **`Sync-AllUserPhotosFromCloud.ps1`**
+
+This script synchronizes user profile photos from Microsoft 365 (Graph) into Active Directory, ensuring AD DS always reflects the authoritative cloud profile image.
+
+Capabilities:
+
+- Connects to Microsoft Graph
+- Retrieves user profile photos
+- Resizes and normalizes images
+- Writes photos to AD DS (`thumbnailPhoto`)
+- Enforces deterministic overwrite rules
+- Supports DryRun mode
+- Logs all operations for auditability
+
+This script integrates cleanly with the IdentityProvisioning module, ensuring that identity metadata and identity photos remain consistent across cloud and on-prem environments.
+
+### **Example**
 
 ```powershell
-pwsh ./provisioning/Run-MailboxProvisioning.ps1 -DryRun
+pwsh ./Sync-AllUserPhotosFromCloud.ps1 \-DryRun
 ```
+
+# **📄 CSV Files**
+
+## **shared_mailboxes.csv (base/empty)**
+
+This is the **real CSV** used by the provisioning engine. It ships empty:
+
+Code
+
+Name,PrimarySmtp,Aliases,Folders,Description,Department,HideFromGAL,GroupDescription
+
+Users populate this file with their actual mailbox definitions.
+
+This file drives:
+
+- mailbox creation
+- mailbox rename detection
+- metadata drift correction
+- alias enforcement
+- folder creation
+- group naming conventions
+
+## **shared_mailboxes_example.csv (fictional)**
+
+A fully fictional example demonstrating the correct schema, naming conventions, and metadata fields.
+
+Safe for public repositories.
+
+# **🧠 Philosophy**
+
+`datacenter-directory` treats identity as code.
+
+Every run enforces a deterministic identity model, eliminates drift, and ensures AD DS remains consistent with declarative configuration. The system is:
+
+- Predictable
+- Repeatable
+- Idempotent
+- Auditable
+- Easy to extend
+
+This repo is designed to be a homelab-grade identity system built with enterprise IAM principles.
+
+# **✍️ Author**
+
+Created by Kael Sterling @ Untapped Technologies

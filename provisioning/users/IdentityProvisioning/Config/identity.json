@@ -1,5 +1,5 @@
 {
-    "UsersOU": "OU=Users,DC=untapped,DC=tech",
+    "UsersOU": "OU=People,DC=untapped,DC=tech",
     "GroupsOU": "OU=Groups,DC=untapped,DC=tech",
 
     "PrimaryLoginDomain": "untapped.tech",

@@ -1,0 +1,10 @@
+{
+    "Domains": {
+        "Primary": "untapped.tech",
+        "Aliases": ["untapped.tech", "untappedtechnologies.com"]
+    },
+    "Defaults": {
+        "Language": "en-US",
+        "TimeZone": "Eastern Standard Time"
+    }
+}

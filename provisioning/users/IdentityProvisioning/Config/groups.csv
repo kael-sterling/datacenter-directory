@@ -1,10 +1,10 @@
 Name,SamAccountName,Scope,Category,Description,Members,MemberOf,ManagedBy,ShowInGAL
-Engineering,GRP_Engineering,Global,Department,Engineering Department Group,"jdoe;asmith;tnguyen",,asmith,True
-Engineering-Admins,GRP_Engineering-Admins,Global,Department,Engineering Admin Group,"asmith",Engineering,asmith,False
-Finance,GRP_Finance,Global,Department,Finance Department Group,"bwilson;cmiller",,cmiller,True
-Finance-Admins,GRP_Finance-Admins,Global,Department,Finance Admin Group,"cmiller",Finance,cmiller,False
-HR,GRP_HR,Global,Department,Human Resources Group,"kpatel;ljones",,ljones,True
-HR-Admins,GRP_HR-Admins,Global,Department,HR Admin Group,"ljones",HR,ljones,False
-IT,GRP_IT,Global,Department,IT Department Group,"tnguyen",,asmith,True
-IT-Admins,GRP_IT-Admins,Global,Department,IT Admin Group,"asmith",IT,asmith,False
-AllEmployees,GRP_AllEmployees,Universal,Role,All Employees Group,"jdoe;asmith;bwilson;cmiller;tnguyen;kpatel;ljones",,ljones,True
+Engineering,ENG,Global,Security,Engineering Department,,,kael,True
+Engineering-Admins,ENG-Admins,Global,Security,Engineering Admins Group,Kael,ENG,kael,False
+Finance,FIN,Global,Security,Finance Department,,,Tobias,True
+Finance-Admins,FIN-Admins,Global,Security,Finance Admins Group,Tobias,FIN,Tobias,False
+Facilities,FAC,Global,Security,Facilities Department,orion.avner,,Tobias,True
+Facilities-Admins,FAC-Admins,Global,Security,Facilities Admins Group,Kael,FAC,Kael,False
+Legal,LEGAL,Global,Security,Legal Department,,,Kael,True
+Legal-Admins,LEGAL-Admins,Global,Security,Legal Admins Group,Kael,LEGAL,Kael,False
+All-Staff,All-Staff,Global,Security,All Human Staff,ENG;FAC;FIN;LEGAL,,Kael,True

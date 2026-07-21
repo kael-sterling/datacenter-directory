@@ -1,0 +1,12 @@
+Name,DisplayName,HideFromGAL,Aliases,Folders,Description,Department,Manager,FullAccessUsers,SendAsUsers,SendOnBehalf,AutoReplyEnabled,InternalReply,ExternalReply,ExternalAudience
+IT,,False,"it;dev","Alerts;Systems;Vendors;Automation;Archive;Processed;To Review","IT operations mailbox","Engineering","kael","kael","kael","kael",False,"","",""
+Security,,False,"security","Incidents;Investigations;Reports;Archive;Processed;To Review","Security alerts and investigations","Security","kael","kael","kael","kael",False,"","",""
+Support,,False,"support","Tickets;Resolved;Escalations;Archive;Processed;To Review","Customer support communications","Support","kael","kael","kael","kael",False,"","",""
+Info,,False,"info;inquiries","Archive;Processed;To Review","General inquiries and information","Information","kael","kael","kael","kael",False,"","",""
+Sales,,False,"sales","Archive;Processed;To Review","Sales inquiries and communications","Finance","Tobias","kael;tobias","kael;tobias","kael;tobias",False,"","",""
+HR,"Human Resources",False,"hr","Onboarding;Offboarding;Benefits;Policies;Archive;Processed;To Review","Human resources communications","HR","kael","kael;tobias","kael;tobias","kael;tobias",False,"","",""
+Billing,,False,"billing","Invoices;Receipts;Vendors;Archive;Processed;To Review","Billing and financial correspondence","Finance","Tobias","kael;tobias","kael;tobias","kael;tobias",False,"","",""
+Accounting,,False,"accounting","Invoices;Receipts;Vendors;Archive;Processed;To Review","Accounting and financial operations","Finance","Tobias","kael;tobias","kael;tobias","kael;tobias",False,"","",""
+Legal,,False,"legal","Cases;Contracts;Policies;Archive;Processed;To Review","Legal case and contract management","Legal","kael","kael","kael","kael",False,"","",""
+NoReply,No-Reply,True,"noreply;no-reply","","Automated outbound-only mailbox","Engineering","","","","",False,"","",""
+Automation,,True,"automation","","System automation tasks and notifications","Automation","kael","kael","kael","kael",False,"","",""
