@@ -68,7 +68,7 @@ It ensures all provisioning logic runs in a predictable, idempotent order.
 ### **Example**
 
 ```powershell
-pwsh ./Run-MailboxProvisioning.ps1 \-MailboxesCsvPath ./shared\_mailboxes.csv \-DryRun
+pwsh ./Run-MailboxProvisioning.ps1 -MailboxesCsvPath ./shared\_mailboxes.csv -DryRun
 ```
 
 # **🖼️ Cloud Photo Synchronization**
@@ -92,7 +92,7 @@ This script integrates cleanly with the IdentityProvisioning module, ensuring th
 ### **Example**
 
 ```powershell
-pwsh ./Sync-AllUserPhotosFromCloud.ps1 \-DryRun
+pwsh ./Sync-AllUserPhotosFromCloud.ps1 -DryRun
 ```
 
 # **📄 CSV Files**

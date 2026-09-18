@@ -68,43 +68,57 @@ This function does not write to Active Directory. It only resolves addresses.
 
     try {
         #
-        # Build raw SMTP addresses (no prefixes yet)
+        # Canonical variants
         #
-        $primarySmtp = "$SamAccountName@$PrimaryLoginDomain"
+        $canonicalWithPeriod    = $CanonicalName
+        $canonicalWithoutPeriod = $CanonicalName -replace '\.', ''
 
-        $aliases = @()
-
-        foreach ($domain in $SecondaryMailDomains) {
-            $aliases += "$SamAccountName@$domain"
-        }
-
-        $aliases += "$CanonicalName@$PrimaryLoginDomain"
+        #
+        # Build domain list once
+        #
+        $allDomains = @($PrimaryLoginDomain)
 
         if ($PrimaryMailDomain -ne $PrimaryLoginDomain) {
-            $aliases += "$CanonicalName@$PrimaryMailDomain"
+            $allDomains += $PrimaryMailDomain
         }
 
-        foreach ($domain in $SecondaryMailDomains) {
-            $aliases += "$CanonicalName@$domain"
+        if ($SecondaryMailDomains) {
+            $allDomains += $SecondaryMailDomains
         }
 
         #
-        # Wrap with SMTP/smtp prefixes
+        # Build alias list (already prefixed with smtp:)
         #
-        $primary = "SMTP:$primarySmtp"
-        $smtpAliases = $aliases | ForEach-Object { "smtp:$_" }
+        $smtpAliases = foreach ($domain in $allDomains) {
+            @(
+                # canonical.with.period
+                "smtp:$canonicalWithPeriod@$domain"
+
+                # canonicalwithoutperiod
+                "smtp:$canonicalWithoutPeriod@$domain"
+
+                # SamAccountName (except primary login domain)
+                if ($domain -ne $PrimaryLoginDomain) {
+                    "smtp:$SamAccountName@$domain"
+                }
+            )
+        }
 
         #
-        # Combine and enforce uniqueness (case-insensitive)
+        # Primary SMTP (uppercase prefix)
+        #
+        $primary = "SMTP:$SamAccountName@$PrimaryLoginDomain"
+
+        #
+        # Combine and enforce uniqueness
         #
         $resolved = @($primary) + $smtpAliases
         $resolved = $resolved | Sort-Object -Unique -CaseSensitive:$false
 
         Write-Log Debug "Resolved proxyAddresses list" $SamAccountName
         Write-Log Debug ($resolved -join ', ') $SamAccountName
-        $resolved = [string[]]$resolved # Force to string array for AD compatibility
 
-        return $resolved
+        return [string[]]$resolved
     }
     catch {
         Write-Log Error ("Failed to resolve proxyAddresses: {0}" -f $_.Exception.Message) $SamAccountName

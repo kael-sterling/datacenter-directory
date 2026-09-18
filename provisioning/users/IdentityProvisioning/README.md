@@ -129,10 +129,15 @@ IdentityProvisioning\
     IdentityProvisioning.psd1
 
     Public\
+        ConvertTo-ADAttributeMap.ps1
         Invoke-IdentityProvisioning.ps1
+        Resolve-ProxyAddresses.ps1
+        Set-Attribute.ps1
+        Set-IfEmpty.ps1
         Test-GroupDrift.ps1
 
     Private\
+        Grant-GroupManagerUpdatePermissions.ps1
         Invoke-ConfigLoad.ps1
         Invoke-Phase.ps1
         Invoke-UserPreProvisioning.ps1
@@ -145,9 +150,7 @@ IdentityProvisioning\
         Resolve-CanonicalName.ps1
         Resolve-Initials.ps1
         Resolve-Gecos.ps1
-        Resolve-ProxyAddresses.ps1
-        Set-Attribute.ps1
-        Set-IfEmpty.ps1
+        Write-Log.ps1
 
     Config\
         identity.json
